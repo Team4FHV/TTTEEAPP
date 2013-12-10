@@ -29,7 +29,6 @@ public class UseCaseControllerLogin {
     
      public void login(String username, String passwort) throws BenutzerNichtInDBException, FalschesPasswordExeption, BenutzerInaktivException {
          benutzer = dm.getBentzerNachName(username);
-         
         if (benutzer == null){
             throw new BenutzerNichtInDBException();
         } else if(benutzer.isAktiv()) {

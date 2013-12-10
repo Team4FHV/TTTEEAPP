@@ -37,5 +37,8 @@
             </key>
             <one-to-many class="Hibernate.objecte.Bestellung" />
         </set>
+        <property name="topics" type="string">
+            <column name="Topics" length="255" not-null="false" />
+        </property>
     </class>
 </hibernate-mapping>

@@ -19,6 +19,7 @@ public class Benutzer  implements java.io.Serializable {
      private boolean aktiv;
      private Set rolles = new HashSet(0);
      private Set bestellungs = new HashSet(0);
+     private String topics;
 
     public Benutzer() {
     }
@@ -98,7 +99,13 @@ public class Benutzer  implements java.io.Serializable {
         this.bestellungs = bestellungs;
     }
 
+    public String getTopics() {
+        return topics;
+    }
 
+    public void setTopics(String topics) {
+        this.topics = topics;
+    }
 
 
 }

@@ -19,7 +19,9 @@ import DTO.objecte.DTOKundeNeuSpeichern;
 import DTO.objecte.DTOKundenDaten;
 import DTO.objecte.DTOKundenDatenAendern;
 import DTO.objecte.DTOLoginDaten;
+import DTO.objecte.DTOMessage;
 import DTO.objecte.DTORollenList;
+import DTO.objecte.DTOTopicData;
 import DTO.objecte.DTOVeranstaltung;
 import DTO.objecte.DTOVeranstaltungAnzeigen;
 import DTO.objecte.DTOVeranstaltungInformation;
@@ -37,6 +39,7 @@ import Hibernate.objecte.Kunde;
 import Hibernate.objecte.Rolle;
 import Hibernate.objecte.Veranstaltung;
 import controller.DataManager;
+import controller.MessageController;
 import controller.UseCaseControllerBestellungErstellen;
 import controller.UseCaseControllerKundenDaten;
 import controller.UseCaseControllerLogin;
@@ -50,6 +53,7 @@ import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.ejb.Stateful;
+import javax.naming.NamingException;
 
 /**
  *
@@ -57,35 +61,37 @@ import javax.ejb.Stateful;
  */
 @Stateful
 public class Hello implements HelloRemote {
- private UseCaseControllerLogin ucl;
+   private UseCaseControllerLogin ucl;
     private UseCaseControllerBestellungErstellen ucb;
     private UseCaseControllerSearch ucs;
     private UseCaseControllerKundenDaten uck;
+    private MessageController mess;
     private DataManager<Object> dm;
     private Benutzer benutzer;
 
-    public Hello() {
+    public Hello() throws Exception {
         super();
         ucl = new UseCaseControllerLogin();
         ucb = new UseCaseControllerBestellungErstellen();
         ucs = new UseCaseControllerSearch();
         uck = new UseCaseControllerKundenDaten();
+        mess = MessageController.getInstance();
         dm = new DataManager<>();
         benutzer = null;
     }
 
     @Override
-    public DTORollenList login(DTOLoginDaten l) throws BenutzerNichtInDBException, FalschesPasswordExeption {
+    public DTORollenList login(DTOLoginDaten l) throws RemoteException, BenutzerNichtInDBException, FalschesPasswordExeption {
         try {
             ucl.login(l.getUsername(), l.getPasswort());
         } catch (BenutzerNichtInDBException ex) {
-            Logger.getLogger(BenutzerNichtInDBException.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(Hello.class.getName()).log(Level.SEVERE, null, ex);
             throw new BenutzerNichtInDBException();
         } catch (FalschesPasswordExeption ex) {
-            Logger.getLogger(BenutzerNichtInDBException.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(Hello.class.getName()).log(Level.SEVERE, null, ex);
             throw new FalschesPasswordExeption();
         } catch (BenutzerInaktivException ex) {
-            Logger.getLogger(BenutzerNichtInDBException.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(Hello.class.getName()).log(Level.SEVERE, null, ex);
         }
         benutzer = ucl.getBenutzer();
 
@@ -99,7 +105,7 @@ public class Hello implements HelloRemote {
     }
 
     @Override
-    public void neuenKundenSpeichern(DTOKundeNeuSpeichern k) throws SaveFailedException {
+    public void neuenKundenSpeichern(DTOKundeNeuSpeichern k) throws RemoteException, SaveFailedException {
         if (benutzer != null && benutzer.getRolles().contains(KontantRolle.DATENPFLEGE)) {
             try {
                 try {
@@ -107,20 +113,20 @@ public class Hello implements HelloRemote {
                             k.getFirmenname(), k.getLand(), k.getPostleitzahl(), k.getOrt(), k.getStrasse(), k.getHausnummer(),
                             k.getTelefonnummer(), k.getEmail());
                 } catch (SaveFailedException ex) {
-                    Logger.getLogger(SaveFailedException.class.getName()).log(Level.SEVERE, null, ex);
+                    Logger.getLogger(Hello.class.getName()).log(Level.SEVERE, null, ex);
                     throw new SaveFailedException();
                 }
 
             } catch (InstantiationException ex) {
-                Logger.getLogger(InstantiationException.class.getName()).log(Level.SEVERE, null, ex);
+                Logger.getLogger(Hello.class.getName()).log(Level.SEVERE, null, ex);
             } catch (IllegalAccessException ex) {
-                Logger.getLogger(IllegalAccessException.class.getName()).log(Level.SEVERE, null, ex);
+                Logger.getLogger(Hello.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
     }
 
     @Override
-    public void kundenDatenAendern(DTOKundenDatenAendern k) throws SaveFailedException {
+    public void kundenDatenAendern(DTOKundenDatenAendern k) throws RemoteException, SaveFailedException {
         if (benutzer != null && benutzer.getRolles().contains(KontantRolle.DATENPFLEGE)) {
             try {
 
@@ -128,17 +134,16 @@ public class Hello implements HelloRemote {
                         k.getFirmenname(), k.getLand(), k.getPostleitzahl(), k.getOrt(), k.getStrasse(), k.getHausnummer(),
                         k.getTelefonnummer(), k.getEmail());
             } catch (InstantiationException ex) {
-                Logger.getLogger(InstantiationException.class.getName()).log(Level.SEVERE, null, ex);
+                Logger.getLogger(Hello.class.getName()).log(Level.SEVERE, null, ex);
             } catch (IllegalAccessException ex) {
-                Logger.getLogger(IllegalAccessException.class.getName()).log(Level.SEVERE, null, ex);
+                Logger.getLogger(Hello.class.getName()).log(Level.SEVERE, null, ex);
             }
 
         }
     }
 
     @Override
-    public ArrayList<DTOVeranstaltungInformation> sucheVeranstaltungenNachKrieterien(Date d, String ort, String kuenstler) 
-            {
+    public ArrayList<DTOVeranstaltungInformation> sucheVeranstaltungenNachKrieterien(Date d, String ort, String kuenstler) throws RemoteException {
         ArrayList<DTOVeranstaltungInformation> veranstaltungDTOList = new ArrayList<DTOVeranstaltungInformation>();
         if (d == null) {
             d = new Date();
@@ -168,8 +173,7 @@ public class Hello implements HelloRemote {
     }
 
     @Override
-    public ArrayList<DTOKategorieInformation> getKategorieInfoVonVeranstaltung(DTOVeranstaltungAnzeigen v) 
-            {
+    public ArrayList<DTOKategorieInformation> getKategorieInfoVonVeranstaltung(DTOVeranstaltungAnzeigen v) throws RemoteException {
         ArrayList<DTOKategorieInformation> kategorieDTOList = new ArrayList<>();
 
         Veranstaltung veranstaltung = ucb.getVeranstaltungByID(v.getId());
@@ -185,7 +189,7 @@ public class Hello implements HelloRemote {
     }
 
     @Override
-    public DTOKategorieInformation getKategorieInfo(int id) {
+    public DTOKategorieInformation getKategorieInfo(int id) throws RemoteException {
         Kategorie kat = ucb.getKategorieByID(id);
         int ermaessigung = kat.getVeranstaltung().getErmaessigung();
         int frei = dm.anzahlFreiePlatzeNachKategorie(kat);
@@ -193,7 +197,7 @@ public class Hello implements HelloRemote {
     }
 
     @Override
-    public DTOKategorieKarte getAlleFreieKartenNachKategorie(DTOKategorienAuswaehlen kat) {
+    public DTOKategorieKarte getAlleFreieKartenNachKategorie(DTOKategorienAuswaehlen kat) throws RemoteException {
 
         Kategorie k = ucb.getKategorieByID(kat.getId());
         List<DTOKarte> kartenDTOList = new ArrayList<>();
@@ -208,7 +212,7 @@ public class Hello implements HelloRemote {
     }
 
     @Override
-    public ArrayList<DTOKundenDaten> getKundenListNachNachname(String nachname) throws Exception {
+    public ArrayList<DTOKundenDaten> getKundenListNachNachname(String nachname) throws RemoteException, Exception {
         ArrayList<Kunde> kundenlist = ucb.kundeSuchen(nachname);
         ArrayList<DTOKundenDaten> kundenDTOlist = new ArrayList<>();
         if (kundenlist == null || kundenlist.size() == 0) {
@@ -222,7 +226,7 @@ public class Hello implements HelloRemote {
     }
 
     @Override
-    public DTOKundenDaten getKundendatenNachID(int id) throws Exception {
+    public DTOKundenDaten getKundendatenNachID(int id) throws Exception, RemoteException {
         Kunde k = ucb.getKundeByID(id);
         if (k == null) {
             throw new Exception("Kein Kunde gefunden");
@@ -251,7 +255,7 @@ public class Hello implements HelloRemote {
             for (DTOKarteBestellen b : karten) {
                 Karte k = ucb.getKarteByID(b.getKartenID());
                 DAOFabrik.getInstance().getKarteDAO().saveORupdate(k);
-                System.out.println("UHRA ");
+              
                      System.out.println(dm.getKartenStatusId(k.getKartenId()));
                      System.out.println(statusFREI);
                 if (dm.getKartenStatusId(k.getKartenId())== statusFREI) {
@@ -267,7 +271,7 @@ public class Hello implements HelloRemote {
     }
 
     @Override
-    public void reservierungSpeichern(List<DTOKarteReservieren> karten) throws Exception, SaveFailedException, KarteNichtVerfuegbarException {
+    public void reservierungSpeichern(List<DTOKarteReservieren> karten) throws Exception, RemoteException, SaveFailedException, KarteNichtVerfuegbarException {
         Set<Karte> bestellteKartenSet = new HashSet<>();
         int kundenId = karten.get(0).getKundenID();
         int statusFREI = KonstantKartenStatus.FREI.getKartenstatusId();
@@ -295,7 +299,7 @@ public class Hello implements HelloRemote {
     }
 
     @Override
-    public DTOVeranstaltung getVeranstaltungById(int veranstaltungID) {
+    public DTOVeranstaltung getVeranstaltungById(int veranstaltungID) throws RemoteException {
         Veranstaltung v = ucb.getVeranstaltungByID(veranstaltungID);
         String Vname = v.getName();
         String VOrt = v.getVeranstaltungsort().getAdresse();
@@ -304,4 +308,40 @@ public class Hello implements HelloRemote {
         boolean ermaessigt = (v.getErmaessigung() == 0);
         return new DTOVeranstaltung(veranstaltungID, Vname, VOrt, date, ermaessigt);
     }
+    
+    @Override
+    public List<DTOMessage> loadUnpublishedMessages()throws RemoteException {
+       
+        return  mess.loadMessages();
+        
+    }
+    
+    @Override
+    public ArrayList<DTOTopicData> getTopics() throws RemoteException{
+        ArrayList<DTOTopicData> result = new ArrayList<>();
+       for (String str : mess.getTopicNames()){
+           result.add(new DTOTopicData(str) );
+       }
+        return result;
+        
+    }
+    @Override
+    public void publishMessage(DTOMessage message) throws RemoteException{
+        try {
+            mess.publishMessage(message);
+        } catch (NamingException ex) {
+            Logger.getLogger(Hello.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+    
+    @Override
+     public void addMessageToClient(DTOMessage m)  throws RemoteException{
+         
+     }
+    
+     @Override
+    public ArrayList<DTOTopicData> getTopicsVonBenutzer(String name) throws RemoteException{
+        ArrayList<DTOTopicData> result = mess.getTopicsVonBenutzer(name);  
+        return result;
+     }
 }
