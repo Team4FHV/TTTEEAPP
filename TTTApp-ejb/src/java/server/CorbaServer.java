@@ -25,7 +25,7 @@ public class CorbaServer {
         try {
             
              Properties props = new Properties();
-             props.put("org.omg.CORBA.ORBInitialPort", "2050");
+             props.put("org.omg.CORBA.ORBInitialPort", "3700");
              props.put("org.omg.CORBA.ORBInitialHost", "localhost");
              ORB orb = ORB.init(args, props);
              
