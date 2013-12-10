@@ -1,0 +1,30 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<!-- Generated 28.10.2013 11:53:03 by Hibernate Tools 3.2.1.GA -->
+<hibernate-mapping>
+    <class name="Hibernate.objecte.Kategorie" table="Kategorie" catalog="ash9976">
+        <id name="kategorieId" type="java.lang.Integer">
+            <column name="KategorieID" />
+            <generator class="identity" />
+        </id>
+        <many-to-one name="veranstaltung" class="Hibernate.objecte.Veranstaltung" fetch="select">
+            <column name="VeranstaltungID" not-null="true" />
+        </many-to-one>
+        <property name="name" type="string">
+            <column name="Name" length="50" not-null="true" />
+        </property>
+        <property name="beschreibung" type="string">
+            <column name="Beschreibung" length="50" />
+        </property>
+        <property name="preis" type="big_decimal">
+            <column name="Preis" precision="5" not-null="true" />
+        </property>
+        <set name="kartes" inverse="true">
+            <key>
+                <column name="KategorieID" not-null="true" />
+            </key>
+            <one-to-many class="Hibernate.objecte.Karte" />
+        </set>
+    </class>
+</hibernate-mapping>

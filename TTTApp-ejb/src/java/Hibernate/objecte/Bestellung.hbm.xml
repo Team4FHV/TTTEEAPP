@@ -1,0 +1,27 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<!-- Generated 28.10.2013 11:53:03 by Hibernate Tools 3.2.1.GA -->
+<hibernate-mapping>
+    <class name="Hibernate.objecte.Bestellung" table="Bestellung" catalog="ash9976">
+        <id name="bestellungId" type="java.lang.Integer">
+            <column name="BestellungID" />
+            <generator class="identity" />
+        </id>
+        <many-to-one name="benutzer" class="Hibernate.objecte.Benutzer" fetch="select">
+            <column name="BenutzerID" not-null="true" />
+        </many-to-one>
+        <many-to-one name="kunde" class="Hibernate.objecte.Kunde" fetch="select">
+            <column name="KundenID" not-null="true" />
+        </many-to-one>
+        <property name="datum" type="date">
+            <column name="Datum" length="10" not-null="true" />
+        </property>
+        <set name="kartes" inverse="true">
+            <key>
+                <column name="BestellungID" />
+            </key>
+            <one-to-many class="Hibernate.objecte.Karte" />
+        </set>
+    </class>
+</hibernate-mapping>

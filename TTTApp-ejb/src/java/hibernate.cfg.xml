@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-configuration PUBLIC "-//Hibernate/Hibernate Configuration DTD 3.0//EN" "http://hibernate.sourceforge.net/hibernate-configuration-3.0.dtd">
+<hibernate-configuration>
+  <session-factory>
+    <property name="hibernate.dialect">org.hibernate.dialect.MySQLDialect</property>
+    <property name="hibernate.connection.driver_class">com.mysql.jdbc.Driver</property>
+    <property name="hibernate.connection.url">jdbc:mysql://mysql.fhv.at:3306/ash9976?zeroDateTimeBehavior=convertToNull</property>
+    <property name="hibernate.connection.username">ash9976</property>
+    <property name="hibernate.connection.password">iecoraro</property>
+    <mapping resource="Hibernate/objecte/Veranstaltung.hbm.xml"/>
+    <mapping resource="Hibernate/objecte/Rolle.hbm.xml"/>
+    <mapping resource="Hibernate/objecte/Veranstalter.hbm.xml"/>
+    <mapping resource="Hibernate/objecte/Bestellung.hbm.xml"/>
+    <mapping resource="Hibernate/objecte/Kuenstler.hbm.xml"/>
+    <mapping resource="Hibernate/objecte/Veranstaltungstyp.hbm.xml"/>
+    <mapping resource="Hibernate/objecte/Veranstaltungsort.hbm.xml"/>
+    <mapping resource="Hibernate/objecte/Benutzer.hbm.xml"/>
+    <mapping resource="Hibernate/objecte/Kategorie.hbm.xml"/>
+    <mapping resource="Hibernate/objecte/Kartenstatus.hbm.xml"/>
+    <mapping resource="Hibernate/objecte/Kunde.hbm.xml"/>
+    <mapping resource="Hibernate/objecte/Genre.hbm.xml"/>
+    <mapping resource="Hibernate/objecte/Tournee.hbm.xml"/>
+    <mapping resource="Hibernate/objecte/Karte.hbm.xml"/>
+  </session-factory>
+</hibernate-configuration>

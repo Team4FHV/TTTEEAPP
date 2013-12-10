@@ -1,0 +1,57 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<!-- Generated 28.10.2013 11:53:03 by Hibernate Tools 3.2.1.GA -->
+<hibernate-mapping>
+    <class name="Hibernate.objecte.Kunde" table="Kunde" catalog="ash9976">
+        <id name="kundenId" type="java.lang.Integer">
+            <column name="KundenID" />
+            <generator class="identity" />
+        </id>
+        <property name="vorname" type="string">
+            <column name="Vorname" length="50" not-null="true" />
+        </property>
+        <property name="nachname" type="string">
+            <column name="Nachname" length="50" not-null="true" />
+        </property>
+        <property name="geburtsdatum" type="date">
+            <column name="Geburtsdatum" length="10" not-null="true" />
+        </property>
+        <property name="anrede" type="string">
+            <column name="Anrede" length="50" not-null="true" />
+        </property>
+        <property name="firmenname" type="string">
+            <column name="Firmenname" length="50" />
+        </property>
+        <property name="land" type="string">
+            <column name="Land" length="50" not-null="true" />
+        </property>
+        <property name="postleitzahl" type="string">
+            <column name="Postleitzahl" length="50" not-null="true" />
+        </property>
+        <property name="ort" type="string">
+            <column name="Ort" length="50" not-null="true" />
+        </property>
+        <property name="strasse" type="string">
+            <column name="Strasse" length="50" not-null="true" />
+        </property>
+        <property name="hausnummer" type="string">
+            <column name="Hausnummer" length="50" not-null="true" />
+        </property>
+        <property name="telefonnummer" type="string">
+            <column name="Telefonnummer" length="50" />
+        </property>
+        <property name="email" type="string">
+            <column name="Email" length="50" not-null="true" />
+        </property>
+        <property name="aktiv" type="boolean">
+            <column name="Aktiv" not-null="true" />
+        </property>
+        <set name="bestellungs" inverse="true">
+            <key>
+                <column name="KundenID" not-null="true" />
+            </key>
+            <one-to-many class="Hibernate.objecte.Bestellung" />
+        </set>
+    </class>
+</hibernate-mapping>

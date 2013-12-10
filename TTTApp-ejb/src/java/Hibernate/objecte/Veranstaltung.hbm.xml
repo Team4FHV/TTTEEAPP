@@ -1,0 +1,50 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<!-- Generated 28.10.2013 11:53:03 by Hibernate Tools 3.2.1.GA -->
+<hibernate-mapping>
+    <class name="Hibernate.objecte.Veranstaltung" table="Veranstaltung" catalog="ash9976">
+        <id name="veranstaltungId" type="java.lang.Integer">
+            <column name="VeranstaltungID" />
+            <generator class="identity" />
+        </id>
+        <many-to-one name="veranstaltungstyp" class="Hibernate.objecte.Veranstaltungstyp" fetch="select">
+            <column name="VeranstaltungstypID" not-null="true" />
+        </many-to-one>
+        <many-to-one name="veranstaltungsort" class="Hibernate.objecte.Veranstaltungsort" fetch="select">
+            <column name="VeranstaltungsortID" not-null="true" />
+        </many-to-one>
+        <many-to-one name="veranstalter" class="Hibernate.objecte.Veranstalter" fetch="select">
+            <column name="VeranstalterID" not-null="true" />
+        </many-to-one>
+        <property name="name" type="string">
+            <column name="Name" length="50" not-null="true" />
+        </property>
+        <property name="beschreibung" type="string">
+            <column name="Beschreibung" length="50" />
+        </property>
+        <property name="datumUhrzeit" type="date">
+            <column name="DatumUhrzeit" length="10" not-null="true" />
+        </property>
+        <property name="ermaessigung" type="int">
+            <column name="Ermaessigung" not-null="true" />
+        </property>
+        <property name="tourneeId" type="java.lang.Integer">
+            <column name="TourneeID" />
+        </property>
+        <set name="kategories" inverse="true">
+            <key>
+                <column name="VeranstaltungID" not-null="true" />
+            </key>
+            <one-to-many class="Hibernate.objecte.Kategorie" />
+        </set>
+        <set name="kuenstlers" inverse="false" table="VeranstaltungKuenstler">
+            <key>
+                <column name="VeranstaltungID" not-null="true" />
+            </key>
+            <many-to-many entity-name="Hibernate.objecte.Kuenstler">
+                <column name="KuenstlerID" not-null="true" />
+            </many-to-many>
+        </set>
+    </class>
+</hibernate-mapping>

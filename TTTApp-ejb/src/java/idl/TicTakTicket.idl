@@ -1,0 +1,70 @@
+module TicTakTicket {
+	module corba {
+		struct StructKarte {
+			long kartenId;
+			string reihe;
+			long platz;
+		};
+		struct StructKarteBestellen {
+			long kartenId;
+			long kundenId;
+			boolean ermaessigt;
+			};
+		
+		struct StructKategorieInformation {	
+			long kategId;
+			string katName;
+			double katPreis;
+			//typdef fixed<9,2> katPreis;  wird von idlj nicht unterstuetzt
+			long freiePlaetze;
+			long ermaessigung;
+		};
+		
+		struct StructKategorieAuswaehlen {
+			long id;
+		};
+		
+		struct StructKategorieKarte {
+			sequence<StructKarte> kartenList;
+		};
+		
+		struct StructVeranstaltung{
+			long vid;
+			string vDatum;
+			string vName;
+			string vOrt;
+			string kuenstler;
+			boolean ermaessigt;
+		};
+		
+		struct StructVeranstaltungAnzeigen {
+			long id;
+		};
+	
+		
+            exception CobraException{
+                 string message; 
+            };
+
+	interface CorbaConterollerInterface {
+		typedef sequence<StructVeranstaltung> veranstaltungList;
+
+		typedef sequence<StructKarteBestellen> bestellungList;
+			
+		typedef sequence<StructKategorieInformation> kategorieList;
+			
+		//falls null nicht geht einzelne Methoden mit jedem Parameter machen
+			
+		StructKategorieKarte getAlleFreieKartenNachKategorie(in StructKategorieAuswaehlen kategorie);
+			
+		kategorieList getKategorieInfoVonVeranstaltung(in StructVeranstaltungAnzeigen veranstaltung);
+				
+		veranstaltungList sucheVeranstaltungNachKriterien(in string datum, in string ort, in string kuenstler);
+				
+		void verkaufSpeichern(in bestellungList karten) raises (CobraException);
+			
+		StructKategorieInformation getKategorieInfo(in long id);
+		};
+	};
+       
+};

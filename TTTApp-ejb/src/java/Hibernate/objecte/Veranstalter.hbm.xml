@@ -1,0 +1,33 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<!-- Generated 28.10.2013 11:53:03 by Hibernate Tools 3.2.1.GA -->
+<hibernate-mapping>
+    <class name="Hibernate.objecte.Veranstalter" table="Veranstalter" catalog="ash9976">
+        <id name="veranstalterId" type="java.lang.Integer">
+            <column name="VeranstalterID" />
+            <generator class="identity" />
+        </id>
+        <property name="name" type="string">
+            <column name="Name" length="50" not-null="true" />
+        </property>
+        <property name="adresse" type="string">
+            <column name="Adresse" length="125" not-null="true" />
+        </property>
+        <property name="email" type="string">
+            <column name="Email" length="50" not-null="true" />
+        </property>
+        <property name="telefon" type="string">
+            <column name="Telefon" length="50" not-null="true" />
+        </property>
+        <property name="aktiv" type="boolean">
+            <column name="Aktiv" not-null="true" />
+        </property>
+        <set name="veranstaltungs" inverse="true">
+            <key>
+                <column name="VeranstalterID" not-null="true" />
+            </key>
+            <one-to-many class="Hibernate.objecte.Veranstaltung" />
+        </set>
+    </class>
+</hibernate-mapping>

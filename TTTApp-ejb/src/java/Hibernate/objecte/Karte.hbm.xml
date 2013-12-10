@@ -1,0 +1,39 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<!-- Generated 28.10.2013 11:53:03 by Hibernate Tools 3.2.1.GA -->
+<hibernate-mapping>
+    <class name="Hibernate.objecte.Karte" table="Karte" catalog="ash9976">
+        <id name="kartenId" type="java.lang.Integer">
+            <column name="KartenID" />
+            <generator class="identity" />
+        </id>
+        <many-to-one name="bestellung" class="Hibernate.objecte.Bestellung" fetch="select">
+            <column name="BestellungID" />
+        </many-to-one>
+        <many-to-one name="kartenstatus" class="Hibernate.objecte.Kartenstatus" fetch="select">
+            <column name="KartenstatusID" not-null="true" />
+        </many-to-one>
+        <many-to-one name="kategorie" class="Hibernate.objecte.Kategorie" fetch="select">
+            <column name="KategorieID" not-null="true" />
+        </many-to-one>
+        <property name="name" type="string">
+            <column name="Name" length="50" not-null="true" />
+        </property>
+        <property name="beschreibung" type="string">
+            <column name="Beschreibung" length="50" />
+        </property>
+        <property name="sitzplatz" type="java.lang.Integer">
+            <column name="Sitzplatz" />
+        </property>
+        <property name="reihe" type="string">
+            <column name="Reihe" length="50" />
+        </property>
+        <property name="preis" type="big_decimal">
+            <column name="Preis" precision="5" />
+        </property>
+        <property name="ermaessigt" type="java.lang.Boolean">
+            <column name="Ermaessigt" />
+        </property>
+    </class>
+</hibernate-mapping>

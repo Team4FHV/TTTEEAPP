@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-reverse-engineering PUBLIC "-//Hibernate/Hibernate Reverse Engineering DTD 3.0//EN" "http://hibernate.sourceforge.net/hibernate-reverse-engineering-3.0.dtd">
+<hibernate-reverse-engineering>
+  <schema-selection match-catalog="ash9976"/>
+  <table-filter match-name="Kategorie"/>
+  <table-filter match-name="Veranstaltungsort"/>
+  <table-filter match-name="Veranstaltung"/>
+  <table-filter match-name="BenutzerRolle"/>
+  <table-filter match-name="KuenstlerGenre"/>
+  <table-filter match-name="Veranstaltungstyp"/>
+  <table-filter match-name="Tournee"/>
+  <table-filter match-name="Kartenstatus"/>
+  <table-filter match-name="Kuenstler"/>
+  <table-filter match-name="Benutzer"/>
+  <table-filter match-name="Bestellung"/>
+  <table-filter match-name="Kunde"/>
+  <table-filter match-name="Genre"/>
+  <table-filter match-name="Veranstalter"/>
+  <table-filter match-name="Rolle"/>
+  <table-filter match-name="Karte"/>
+  <table-filter match-name="VeranstaltungKuenstler"/>
+</hibernate-reverse-engineering>
