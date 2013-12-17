@@ -1,7 +1,9 @@
 <?xml version='1.0' encoding='UTF-8' ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"
-      xmlns:h="http://xmlns.jcp.org/jsf/html">
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:c="http://xmlns.jcp.org/jsp/jstl/core">
     <h:head>
         <title>TTT - Karten Kaufen</title>
     </h:head>
@@ -73,7 +75,23 @@
         </table>
         <br></br>
         <br></br>
-        
+        <h:dataTable>
+            <h:column>
+                <f:facet name="header">KartenID</f:facet>
+            </h:column>
+            <h:column>
+                <f:facet name="header">KartenID</f:facet>
+            </h:column>
+            <h:column>
+                <f:facet name="header">Reihe</f:facet>
+            </h:column>
+            <h:column>
+                <f:facet name="header">Platz</f:facet>
+            </h:column>
+            <h:column>
+                <f:facet name="header">Ermässigung</f:facet>
+            </h:column>
+        </h:dataTable>
     </h:body>
 </html>
 
