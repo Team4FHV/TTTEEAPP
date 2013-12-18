@@ -8,15 +8,11 @@
             <web-module-libraries/>
             <web-module-additional-libraries>
                 <library>
-                    <file>${reference.TTTApp-war.dist-ear}</file>
-                    <path-in-war>/</path-in-war>
-                </library>
-                <library>
                     <file>${reference.TTTApp-ejb.dist-ear}</file>
                     <path-in-war>/</path-in-war>
                 </library>
                 <library>
-                    <file>${reference.TTTApp-war-1.dist-ear}</file>
+                    <file>${reference.TTTApp-war.dist-ear}</file>
                     <path-in-war>/</path-in-war>
                 </library>
             </web-module-additional-libraries>
@@ -32,14 +28,6 @@
             </reference>
             <reference>
                 <foreign-project>TTTApp-war</foreign-project>
-                <artifact-type>j2ee_ear_archive</artifact-type>
-                <script>build.xml</script>
-                <target>dist-ear</target>
-                <clean-target>clean-ear</clean-target>
-                <id>dist-ear</id>
-            </reference>
-            <reference>
-                <foreign-project>TTTApp-war-1</foreign-project>
                 <artifact-type>j2ee_ear_archive</artifact-type>
                 <script>build.xml</script>
                 <target>dist-ear</target>
