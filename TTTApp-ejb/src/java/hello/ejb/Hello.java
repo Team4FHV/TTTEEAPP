@@ -250,6 +250,10 @@ public class Hello implements HelloRemote {
         if (kundenId == -1) {
             kunde = KonstantKunde.ANONYMOUS;
         }
+        if(benutzer == null)
+        {
+            benutzer = ucb.getBenutzerByID(7);
+        }
         if (karten != null) {
 
             for (DTOKarteBestellen b : karten) {
